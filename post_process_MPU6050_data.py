@@ -24,7 +24,9 @@ class SerialReader(object):
 
         self.dump_data = dump_data
         self.debug = debug
+        self.stabilizing_time = stabilizing_time
 
+        # override stabilizing time for quicker debugging
         if self.debug:
             self.stabilizing_time = 0.1
 
@@ -154,16 +156,32 @@ class SerialReader(object):
         self.process_data()
 
 def main():
-    # TODO:
-    #       1) Add argparse for poll time and debug and other options
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--poll_time', '-p', type=int,
+                        help='amount of time to poll',
+                        default=5)
+    parser.add_argument('--baud_rate', '-b',
+                        help='baud rate',
+                        default=115200)
+    parser.add_argument('--debug', '-d',
+                        help='debug mode or no',
+                        action='store_true', default=False)
+    parser.add_argument('--stabilizing_time', '-s',
+                        help='amount of time for signal to stabilize',
+                        default=10)
+    args = parser.parse_args()
 
+    # HACK:: Anshuman 03/22 Global variables are shitty, but decorators do not have
+    # access to self/cls variables so.. for now global
     global POLL_TIME
-    POLL_TIME = 0.5
-    debug = True
+    POLL_TIME = args.poll_time
+    debug = args.debug
+    baud_rate = args.baud_rate
+    stabilizing_time = args.stabilizing_time
 
-    ser = SerialReader(115200, debug=debug)
+    ser = SerialReader(args.baud_rate, debug=debug,
+                       stabilizing_time=stabilizing_time)
     ser.run()
-
 
 if __name__ == "__main__":
     main()
