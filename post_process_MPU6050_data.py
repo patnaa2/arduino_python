@@ -155,6 +155,10 @@ class SerialReader(object):
         self.collect_data()
         self.process_data()
 
+    def clean_up(self):
+        self.ser.flush()
+        self.ser.close()
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--poll_time', '-p', type=int,
@@ -181,7 +185,12 @@ def main():
 
     ser = SerialReader(args.baud_rate, debug=debug,
                        stabilizing_time=stabilizing_time)
-    ser.run()
+    try:
+        ser.run()
+    except:
+        pass
+    finally:
+        ser.clean_up()
 
 if __name__ == "__main__":
     main()
