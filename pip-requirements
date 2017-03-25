@@ -1,0 +1,4 @@
+interruptingcow==0.6
+matplotlib==1.5.1
+numpy==1.11.1
+pyserial==3.3
