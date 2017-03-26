@@ -31,6 +31,9 @@ class SerialReader(object):
             self.stabilizing_time = 0.1
 
         # Relevant data arrays
+        self.setup_data_arrays()
+
+    def setup_data_arrays(self):
         self.x_1 = []
         self.x_2 = []
 
@@ -66,11 +69,12 @@ class SerialReader(object):
         print "Waiting for signal to stabilizing.."
         print "Sleeping for %ds." %(self.stabilizing_time)
         time.sleep(self.stabilizing_time)
-        print "Starting to collect data for %d seconds" %(POLL_TIME)
-        time.sleep(0.1)
 
     @timeout(POLL_TIME)
     def collect_data(self):
+        print "Starting to collect data for %d seconds" %(POLL_TIME)
+        time.sleep(0.1)
+
         while True:
             try:
                 data = self.ser.readline()
