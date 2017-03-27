@@ -74,9 +74,6 @@ class RTSerialReader(SerialReader):
             #print e
             return [ax_0, ax_1, ay_0, ay_1, az_0, az_1]
 
-    def run(self):
-        self.wait_for_stable_signal()
-
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--poll_time', '-p', type=int,
@@ -104,8 +101,6 @@ def main():
     rt_ser = RTSerialReader(args.baud_rate, debug=debug,
                        stabilizing_time=stabilizing_time)
 
-    rt_ser.run()
-
     fig = plt.figure(num=0, figsize=(12,8))
     fig.suptitle("RealTime Acceleration on 3 axis", fontsize=12)
 
@@ -125,11 +120,11 @@ def main():
 
     # set limits
     ax0.set_xlim(0, rt_ser.MAXLEN)
-    ax0.set_ylim(-600, 500)
+    ax0.set_ylim(-1000, 1000)
     ax1.set_xlim(0, rt_ser.MAXLEN)
-    ax1.set_ylim(-600, 500)
+    ax1.set_ylim(-1000, 1000)
     ax2.set_xlim(0, rt_ser.MAXLEN)
-    ax2.set_ylim(-600, 500)
+    ax2.set_ylim(-1000, 1000)
 
     # set labels
     ax0.set_xlabel("t")

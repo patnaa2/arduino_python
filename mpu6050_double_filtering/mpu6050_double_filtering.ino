@@ -92,7 +92,7 @@ void setup() {
     accelgyro2.initialize();
   
     // verify connection
-    Serial.println("Testing device connections...");
+    //Serial.println("Testing device connections...");
     //Serial.println(accelgyro1.testConnection() ? "MPU6050 1 connection successful" : "MPU6050 1 connection failed");
     //Serial.println(accelgyro2.testConnection() ? "MPU6050 2 High connection successful" : "MPU6050 2 High connection failed");
 
@@ -100,22 +100,31 @@ void setup() {
     /*
     Serial.println("Updating internal sensor offsets...");
     // -76	-2359	1688	0	0	0
-    Serial.print(accelgyro.getXAccelOffset()); Serial.print("\t"); // -76
-    Serial.print(accelgyro.getYAccelOffset()); Serial.print("\t"); // -2359
-    Serial.print(accelgyro.getZAccelOffset()); Serial.print("\t"); // 1688
-    Serial.print(accelgyro.getXGyroOffset()); Serial.print("\t"); // 0
-    Serial.print(accelgyro.getYGyroOffset()); Serial.print("\t"); // 0
-    Serial.print(accelgyro.getZGyroOffset()); Serial.print("\t"); // 0
+    Serial.print(accelgyro1.getXAccelOffset()); Serial.print("\t"); // -76
+    Serial.print(accelgyro1.getYAccelOffset()); Serial.print("\t"); // -2359
+    Serial.print(accelgyro1.getZAccelOffset()); Serial.print("\t"); // 1688
+    Serial.print(accelgyro1.getXGyroOffset()); Serial.print("\t"); // 0
+    Serial.print(accelgyro1.getYGyroOffset()); Serial.print("\t"); // 0
+    Serial.print(accelgyro1.getZGyroOffset()); Serial.print("\t"); // 0 
     Serial.print("\n");
-    accelgyro.setXGyroOffset(220);
-    accelgyro.setYGyroOffset(76);
-    accelgyro.setZGyroOffset(-85);
-    Serial.print(accelgyro.getXAccelOffset()); Serial.print("\t"); // -76
-    Serial.print(accelgyro.getYAccelOffset()); Serial.print("\t"); // -2359
-    Serial.print(accelgyro.getZAccelOffset()); Serial.print("\t"); // 1688
-    Serial.print(accelgyro.getXGyroOffset()); Serial.print("\t"); // 0
-    Serial.print(accelgyro.getYGyroOffset()); Serial.print("\t"); // 0
-    Serial.print(accelgyro.getZGyroOffset()); Serial.print("\t"); // 0
+    Serial.print(accelgyro2.getXAccelOffset()); Serial.print("\t"); // -76
+    Serial.print(accelgyro2.getYAccelOffset()); Serial.print("\t"); // -2359
+    Serial.print(accelgyro2.getZAccelOffset()); Serial.print("\t"); // 2688
+    Serial.print(accelgyro2.getXGyroOffset()); Serial.print("\t"); // 0
+    Serial.print(accelgyro2.getYGyroOffset()); Serial.print("\t"); // 0
+    Serial.print(accelgyro2.getZGyroOffset()); Serial.print("\t"); // 0
+    Serial.print("\n");
+    accelgyro1.setXAccelOffset(3340);
+    accelgyro1.setYAccelOffset(785);
+    accelgyro1.setZAccelOffset(-2056);
+    accelgyro2.setXAccelOffset(1940);
+    accelgyro2.setYAccelOffset(3081);
+    accelgyro2.setZAccelOffset(-1024);
+    //accelgyro.setXGyroOffset(220);
+    //accelgyro.setYGyroOffset(76);
+    //accelgyro.setZGyroOffset(-85);
+    
+    
     Serial.print("\n");
     */
 
@@ -144,7 +153,7 @@ void loop() {
         Serial.print(ay1); Serial.print(" ");
         Serial.print(az1); Serial.print(" ");
         Serial.print("|");
-        Serial.print(ax2); Serial.print(" ");
+        Serial.print(ax2); Serial.print(" ");  
         Serial.print(ay2); Serial.print(" ");
         Serial.println(az2);
         

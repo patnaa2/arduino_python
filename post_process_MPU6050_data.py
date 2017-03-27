@@ -35,6 +35,9 @@ class SerialReader(object):
         # Relevant data arrays
         self.setup_data_arrays()
 
+        # Stabilize signal
+        self.wait_for_stable_signal()
+
     def setup_data_arrays(self):
         self.x_1 = []
         self.x_2 = []
@@ -165,40 +168,35 @@ class SerialReader(object):
         self.smooth_data()
 
         print "Graphing results.."
-        fig = plt.figure(0)
-        fig.suptilte("Acceleration for the last %s seconds" %(self.stabilizing_time),
-                     font_size=12)
 
         plt.subplot(311)
-        plt.plot(self.x_1)
-        plt.plot(self.x_2)
+        plt.plot(self.x_1, 'b-', label='Output')
+        plt.plot(self.x_2, 'g-', label='Input')
         plt.xlim((0, len(self.x_1)))
         plt.xlabel('t')
         plt.ylabel('ax')
         plt.legend()
 
         plt.subplot(312)
-        plt.plot(self.y_1)
-        plt.plot(self.y_2)
+        plt.plot(self.y_1, 'b-', label='Output')
+        plt.plot(self.y_2, 'g-', label='Input')
         plt.xlim((0, len(self.x_1)))
         plt.xlabel('t')
         plt.ylabel('ay')
         plt.legend()
 
         plt.subplot(313)
-        plt.plot(self.z_1)
-        plt.plot(self.z_2)
+        plt.plot(self.z_1, 'b-', label='Output')
+        plt.plot(self.z_2, 'g-', label='Input')
         plt.xlim((0, len(self.x_1)))
         plt.xlabel('t')
         plt.ylabel('az')
         plt.legend()
 
         plt.show()
-        import pdb ; pdb.set_trace()
 
     def run(self):
         #self.init_data_stream()
-        self.wait_for_stable_signal()
         self.collect_data()
         self.process_data()
 
@@ -232,12 +230,16 @@ def main():
 
     ser = SerialReader(args.baud_rate, debug=debug,
                        stabilizing_time=stabilizing_time)
-    try:
-        ser.run()
-    except:
-        pass
-    finally:
-        ser.clean_up()
+    while True:
+        val = raw_input("\nPress a letter or exit to continue:")
+        if val == "exit":
+            break
+        try:
+            ser.run()
+        except:
+            pass
+
+    ser.clean_up()
 
 if __name__ == "__main__":
     main()
