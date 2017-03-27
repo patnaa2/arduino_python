@@ -11,6 +11,8 @@ import time
 POLL_TIME = 5
 
 class SerialReader(object):
+    BOX_POINTS = 20
+
     def __init__(self, baud_rate, port=None, dump_data=False, debug=False,
                  stabilizing_time=5):
         self.baud_rate = baud_rate
@@ -102,6 +104,27 @@ class SerialReader(object):
         pickle.dump(self.raw_data, open("raw_data.txt", "wb"))
         print "Done Dumping. Data has been saved as raw_data.txt in cwd."
 
+    def convert_data_to_np_arrays(self):
+        self.x_1 = np.array(self.x_1, dtype=np.int)
+        self.x_2 = np.array(self.x_2, dtype=np.int)
+        self.y_1 = np.array(self.y_1, dtype=np.int)
+        self.y_2 = np.array(self.y_2, dtype=np.int)
+        self.z_1 = np.array(self.z_1, dtype=np.int)
+        self.z_2 = np.array(self.z_2, dtype=np.int)
+
+    def smooth_data(self):
+        def smooth(y):
+            box = np.ones(self.BOX_POINTS)/self.BOX_POINTS
+            y_smooth = np.convolve(y, box, mode='same')
+            return y_smooth
+
+        self.x_1 = smooth(self.x_1)
+        self.x_2 = smooth(self.x_2)
+        self.y_1 = smooth(self.y_1)
+        self.y_2 = smooth(self.y_2)
+        self.z_1 = smooth(self.z_1)
+        self.z_2 = smooth(self.z_2)
+
     def process_data(self):
         if self.debug:
             print "Processing data set.."
@@ -137,18 +160,38 @@ class SerialReader(object):
             except Exception as e:
                 pass
 
+        print "Filtering Results"
+        self.convert_data_to_np_arrays()
+        self.smooth_data()
+
         print "Graphing results.."
+        fig = plt.figure(0)
+        fig.suptilte("Acceleration for the last %s seconds" %(self.stabilizing_time),
+                     font_size=12)
+
         plt.subplot(311)
         plt.plot(self.x_1)
         plt.plot(self.x_2)
+        plt.xlim((0, len(self.x_1)))
+        plt.xlabel('t')
+        plt.ylabel('ax')
+        plt.legend()
 
         plt.subplot(312)
         plt.plot(self.y_1)
         plt.plot(self.y_2)
+        plt.xlim((0, len(self.x_1)))
+        plt.xlabel('t')
+        plt.ylabel('ay')
+        plt.legend()
 
         plt.subplot(313)
         plt.plot(self.z_1)
         plt.plot(self.z_2)
+        plt.xlim((0, len(self.x_1)))
+        plt.xlabel('t')
+        plt.ylabel('az')
+        plt.legend()
 
         plt.show()
         import pdb ; pdb.set_trace()
