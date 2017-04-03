@@ -15,9 +15,9 @@ class SerialReader(object):
 
     def __init__(self, baud_rate, port=None, dump_data=False, debug=False,
                  stabilizing_time=5):
+        import pdb ; pdb.set_trace()
         self.baud_rate = baud_rate
         self.raw_data = []
-
         if port:
             self.ser = serial.Serial(self.port, self.baud_rate, timeout=0.5)
         else:
@@ -212,7 +212,7 @@ def main():
     parser.add_argument('--baud_rate', '-b',
                         help='baud rate',
                         default=115200)
-    parser.add_argument('--debug', '-d',
+    parser.add_argument('--debug', '-de',
                         help='debug mode or no',
                         action='store_true', default=False)
     parser.add_argument('--stabilizing_time', '-s',
@@ -227,8 +227,10 @@ def main():
     debug = args.debug
     baud_rate = args.baud_rate
     stabilizing_time = args.stabilizing_time
+    dump_data = True
 
     ser = SerialReader(args.baud_rate, debug=debug,
+                       dump_data=dump_data,
                        stabilizing_time=stabilizing_time)
     while True:
         val = raw_input("\nPress a letter or exit to continue:")
