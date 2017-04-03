@@ -104,7 +104,9 @@ class SerialReader(object):
             self.dump()
 
     def dump(self):
-        pickle.dump(self.raw_data, open("raw_data.txt", "wb"))
+        now = datetime.datetime.now()
+        file_name = "raw_data_%s" %(now.strftime("%s"))
+        pickle.dump(self.raw_data, open(file_name, "wb"))
         print "Done Dumping. Data has been saved as raw_data.txt in cwd."
 
     def convert_data_to_np_arrays(self):
