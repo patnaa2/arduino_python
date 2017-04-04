@@ -15,7 +15,6 @@ class SerialReader(object):
 
     def __init__(self, baud_rate, port=None, dump_data=False, debug=False,
                  stabilizing_time=5):
-        import pdb ; pdb.set_trace()
         self.baud_rate = baud_rate
         self.raw_data = []
         if port:
@@ -222,8 +221,8 @@ def main():
                         default=10)
     args = parser.parse_args()
 
-    # HACK:: Anshuman 03/22 Global variables are shitty, but decorators do not have
-    # access to self/cls variables so.. for now global
+    # HACK:: Anshuman 03/22 Global variables are terrible, but decorators do not have
+    # access to self/cls variables, needed for interrupting cow so.. for now global
     global POLL_TIME
     POLL_TIME = args.poll_time
     debug = args.debug
